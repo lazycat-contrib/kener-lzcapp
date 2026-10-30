@@ -1,5 +1,5 @@
 package: community.lazycat.app.kener
-version: 3.2.4
+version: 4.1.10
 name: Kener
 description: Self-hosted status page with incident management, monitors and alerts.
 min_os_version: "1.5.0"

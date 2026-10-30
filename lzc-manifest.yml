@@ -6,8 +6,8 @@ application:
       backend: http://kener:3000/
 services:
   kener:
-    # upstream: ghcr.io/rajnandan1/kener:3.2.4
-    image: docker.1ms.run/rajnandan1/kener:3.2.4
+    # upstream: ghcr.io/rajnandan1/kener:v4.1.10
+    image: ghcr.1ms.run/rajnandan1/kener:v4.1.10
     environment:
       - TZ=Asia/Shanghai
       - KENER_SECRET_KEY={{ stable_secret "kener_secret_key" }}
