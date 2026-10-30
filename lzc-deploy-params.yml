@@ -1,0 +1,21 @@
+params:
+  - id: login_user
+    type: string
+    name: "Admin User"
+    description: "Initial admin account email (created on first run)"
+    default_value: "admin@lzcapp.local"
+    optional: true
+  - id: login_password
+    type: secret
+    name: "Admin Password"
+    description: "Initial admin password; change it after first login in app settings"
+    default_value: "$random(len=20)"
+    optional: true
+locales:
+  zh:
+    login_user:
+      name: "管理员账号"
+      description: "初始管理员邮箱（首次运行时创建）"
+    login_password:
+      name: "管理员密码"
+      description: "初始密码；首次登录后请在应用内修改"
