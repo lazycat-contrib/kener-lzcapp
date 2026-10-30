@@ -7,19 +7,33 @@ application:
 services:
   kener:
     # upstream: ghcr.io/rajnandan1/kener:v4.1.10
-    image: ghcr.1ms.run/rajnandan1/kener:v4.1.10
+    image: docker.1ms.run/rajnandan1/kener:v4.1.10
     environment:
       - TZ=Asia/Shanghai
       - KENER_SECRET_KEY={{ stable_secret "kener_secret_key" }}
-      - ORIGIN=http://kener.lzcapp
+      - ORIGIN=https://{{.S.AppDomain}}
+      - REDIS_URL=redis://redis:6379
       - DATABASE_URL=sqlite://./database/kener.sqlite.db
       - PORT=3000
+    depends_on:
+      - redis
     binds:
       - /lzcapp/var/database:/app/database
       - /lzcapp/var/uploads:/app/uploads
+  redis:
+    image: docker.1ms.run/library/redis:7-alpine
+    command: redis-server --save 60 1
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
 usage: |
   Kener 自托管状态页。首次进入后按提示创建管理员账号（登录页支持免密填充，凭据来自部署参数）；之后在管理面板添加监控站点、配置探针与告警。
   状态数据与上传文件保存在应用数据目录；探针结果依赖被监控站点的可达性。
-  ORIGIN 已按容器内地址配置；如遇跨站提交报错请重启应用。
+  ORIGIN 已按应用域名模板配置；探针后台任务由内置 Redis 队列驱动。
   入口保留懒猫登录保护；无公开路径、无文件选择器拦截。
   未验证实机部署后的探针调度与告警推送。
